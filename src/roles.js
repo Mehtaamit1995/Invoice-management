@@ -22,14 +22,34 @@ ac.grant("SuperAdmin")
 const permission = await ac.can('cashier').execute('create');
 console.log(permission.granted);    
 console.log(permission.attributes); 
+
   
 permission = await ac.can('manager').execute('update');
 console.log(permission.granted); 
 console.log(permission.attributes);
+
  
 permission = await ac.can('superadmin').execute('update');
 console.log(permission.granted); 
 console.log(permission.attributes);
+
+
+// ------------- Control check -----------
+
+ac.grant('Cashier').condition(
+    {
+        Fn: 'NOT_EQUALS',
+        args: {
+            'requester': '$.Superadmin'
+        }
+    }).execute('Edit').on('article');
+ 
+  permission = await ac.can('Cashier').context({ requester: ' ', SuperAdmin: ' ' }).execute(' '); //  -- Async Example
+console.log(permission.granted);
+
+
+
+
 
 
 return ac;

@@ -53,10 +53,79 @@ router.get("/users/me", auth, async (req, res) => {
 router.delete("/users/me", auth, async (req, res) => {
     try {
       await req.user.remove();
-      sendCancelationEmail(req.user.email, req.user.name);
       res.send(req.user);
     } catch (e) {
       res.status(500).send();
     }
   });
 
+
+// ----------- logout user -------------------
+
+router.post("/users/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token;
+    });
+    await req.user.save();
+
+    res.send();
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
+
+// ------------------- Get invoice ---------------------
+
+
+router.get("/user", async (req, res) => {
+  try {
+    await req.user.invoice;
+      res.send(req.user);
+  } catch (e) {
+      res.status(500).send();
+    }
+});
+
+
+// ------------------ Get Specific user ---------------------
+
+
+
+
+
+
+
+
+//   // ----------------- Get all users -------------------
+
+//   exports.getUsers = async (req, res, next) => {
+//     const users = await User.find({});
+//     res.status(200).json({
+//      data: users
+//     });
+//    }
+    
+
+
+
+//   //-------------------Get user -------------------------
+
+//    exports.getUser = async (req, res, next) => {
+//     try {
+//      const userId = req.params.userId;
+//      const user = await User.findById(userId);
+//      if (!user) return next(new Error('User does not exist'));
+//       res.status(200).json({
+//       data: user
+//      });
+//     } catch (error) {
+//      next(error)
+//     }
+//    }
+    
+
+    
+
+  
