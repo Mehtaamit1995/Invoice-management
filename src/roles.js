@@ -34,7 +34,21 @@ console.log(permission.granted);
 console.log(permission.attributes);
 
 
-// ------------- Control check -----------
+// ------------- SuperAdmin rights ----------------
+
+// ac.grant('user').condition(
+//     {
+//         Fn: 'EQUALS',
+//         args: {
+//             'requester': '$.owner'
+//         }
+//     }).execute('edit').on('article');
+
+// permission =  await ac.can('user').context({ requester: 'dilip', owner: 'dilip' }).execute('edit').on('article'); // <-- Async Example
+// console.log(permission.granted);
+
+
+// ------------- Control check for Cashier -----------
 
 ac.grant('Cashier').condition(
     {
